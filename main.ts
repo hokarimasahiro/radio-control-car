@@ -1,10 +1,10 @@
 radio.onReceivedNumber(function (receivedNumber) {
     if (receivedNumber == 1) {
-        carcotrol.setNeoColor(carcotrol.colors(RGBColors.Green))
-        carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Green))
-    } else if (receivedNumber == 2) {
         carcotrol.setNeoColor(carcotrol.colors(RGBColors.Red))
         carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Red))
+    } else if (receivedNumber == 2) {
+        carcotrol.setNeoColor(carcotrol.colors(RGBColors.Green))
+        carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Green))
     } else if (receivedNumber == 3) {
         carcotrol.setNeoColor(carcotrol.colors(RGBColors.Blue))
         carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Blue))
