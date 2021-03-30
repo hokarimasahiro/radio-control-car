@@ -2,21 +2,16 @@ function デモ () {
     if (carcotrol.getLineColor(Position.Left, lineColor.White) && carcotrol.getLineColor(Position.Right, lineColor.White)) {
     	
     } else if (carcotrol.getLineColor(Position.Left, lineColor.White) && carcotrol.getLineColor(Position.Right, lineColor.Black)) {
-        carcotrol.carCtrl(DEMO_SPEED, 0)
+        carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], 0)
     } else if (carcotrol.getLineColor(Position.Left, lineColor.Black) && carcotrol.getLineColor(Position.Right, lineColor.White)) {
-        carcotrol.carCtrl(0, DEMO_SPEED)
+        carcotrol.carCtrl(0, DEMO_SPEED[carcotrol.getCarType()])
     } else if (carcotrol.getLineColor(Position.Left, lineColor.Black) && carcotrol.getLineColor(Position.Right, lineColor.Black)) {
-        carcotrol.carCtrl(DEMO_SPEED, DEMO_SPEED)
+        carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], DEMO_SPEED[carcotrol.getCarType()])
     }
-    if (carcotrol.getLineColor(Position.Left, lineColor.White)) {
-        led.plot(0, 2)
+    if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+        carcotrol.plotBarGraph(pins.analogReadPin(AnalogPin.P1) / 4, pins.analogReadPin(AnalogPin.P2) / 4)
     } else {
-        led.unplot(0, 2)
-    }
-    if (carcotrol.getLineColor(Position.Right, lineColor.White)) {
-        led.plot(4, 2)
-    } else {
-        led.unplot(4, 2)
+        carcotrol.plotBarGraph(carcotrol.getLineColorN(Position.Right) * 128, carcotrol.getLineColorN(Position.Left) * 128)
     }
 }
 radio.onReceivedNumber(function (receivedNumber) {
@@ -44,13 +39,16 @@ radio.onReceivedNumber(function (receivedNumber) {
 radio.onReceivedString(function (receivedString) {
     saveString = receivedString
 })
+let right = 0
+let left = 0
 let y = 0
 let x = 0
-let DEMO_SPEED = 0
 let デモNO = 0
 let saveString = ""
 let radioGroup = 0
+let DEMO_SPEED: number[] = []
 let carType2 = ["U", "T", "M", "U", "P"]
+DEMO_SPEED = [0, 90, 200, 0, 150]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 let 無線グループ設定中 = true
 getradiogroup.initRadioGroup()
@@ -62,33 +60,34 @@ saveString = ""
 無線グループ設定中 = false
 radio.setTransmitPower(7)
 デモNO = 0
-if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
-    DEMO_SPEED = 90
-} else if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
-    DEMO_SPEED = 200
-} else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-    DEMO_SPEED = 150
-} else {
-    DEMO_SPEED = 0
-}
 basic.forever(function () {
     if (saveString != "" && !(無線グループ設定中)) {
         x = parseFloat(saveString.split(",")[1])
         y = parseFloat(saveString.split(",")[2])
         if (Math.abs(y) > 100) {
             if (Math.abs(x) < 100) {
-                carcotrol.carCtrl(y / 2, y / 2)
+                left = y / 2
+                right = y / 2
             } else {
-                carcotrol.carCtrl(y / 2 + x / 2, y / 2 - x / 2)
+                left = y / 2 + x / 2
+                right = y / 2 - x / 2
             }
         } else if (Math.abs(x) > 100) {
-            carcotrol.carCtrl(x / 2, x / -2)
-        } else {
-            if (デモNO == 0) {
-                carcotrol.carCtrl(0, 0)
-            } else {
-                デモ()
-            }
+            left = x / 2
+            right = x / -2
+        } else if (デモNO == 0) {
+            left = 0
+            right = 0
         }
+        carcotrol.carCtrl(left, right)
+    }
+    if (デモNO == 0) {
+        if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+            carcotrol.plotBarGraph(left, right)
+        } else {
+            carcotrol.plotBarGraph(0 - right, 0 - left)
+        }
+    } else {
+        デモ()
     }
 })
