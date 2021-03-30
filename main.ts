@@ -45,12 +45,12 @@ let y = 0
 let x = 0
 let デモNO = 0
 let saveString = ""
+let radioGroup = 0
 let DEMO_SPEED: number[] = []
 let carType2 = ["U", "T", "M", "U", "P"]
 DEMO_SPEED = [0, 90, 200, 0, 150]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 getradiogroup.initRadioGroup()
-let radioGroup = 0
 while (radioGroup == 0) {
     radioGroup = getradiogroup.getRadioGroup(saveString)
 }
