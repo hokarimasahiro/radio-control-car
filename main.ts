@@ -50,7 +50,7 @@ let DEMO_SPEED: number[] = []
 carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 carcotrol.setNeoBrightness(50)
 let carType2 = ["U", "T", "M", "U", "P"]
-DEMO_SPEED = [0, 60, 200, 0, 200]
+DEMO_SPEED = [0, 60, 150, 0, 200]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 getradiogroup.initRadioGroup()
 while (radioGroup == 0) {
@@ -73,14 +73,16 @@ basic.forever(function () {
                 left = y / 2 + x / 2
                 right = y / 2 - x / 2
             }
+            carcotrol.carCtrl(left, right)
         } else if (Math.abs(x) > 100) {
             left = x / 2
             right = x / -2
+            carcotrol.carCtrl(left, right)
         } else if (デモNO == 0) {
             left = 0
             right = 0
+            carcotrol.carCtrl(left, right)
         }
-        carcotrol.carCtrl(left, right)
     }
     if (デモNO != 0) {
         デモ()
