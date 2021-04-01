@@ -11,7 +11,7 @@ function デモ () {
     if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
         carcotrol.plotBarGraph(pins.analogReadPin(AnalogPin.P1) / 4, pins.analogReadPin(AnalogPin.P2) / 4)
     } else {
-        carcotrol.plotBarGraph(carcotrol.getLineColorN(Position.Right) * 128, carcotrol.getLineColorN(Position.Left) * 128)
+        carcotrol.plotBarGraph(carcotrol.getLineColorN(Position.Right) * 255, carcotrol.getLineColorN(Position.Left) * 255)
     }
 }
 radio.onReceivedNumber(function (receivedNumber) {
