@@ -47,8 +47,10 @@ let デモNO = 0
 let saveString = ""
 let radioGroup = 0
 let DEMO_SPEED: number[] = []
+carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
+carcotrol.setNeoBrightness(50)
 let carType2 = ["U", "T", "M", "U", "P"]
-DEMO_SPEED = [0, 90, 200, 0, 150]
+DEMO_SPEED = [0, 60, 200, 0, 200]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 getradiogroup.initRadioGroup()
 while (radioGroup == 0) {
@@ -60,33 +62,33 @@ saveString = ""
 radio.setTransmitPower(7)
 デモNO = 0
 basic.forever(function () {
+    if (saveString != "") {
+        x = parseFloat(saveString.split(",")[1])
+        y = parseFloat(saveString.split(",")[2])
+        if (Math.abs(y) > 100) {
+            if (Math.abs(x) < 100) {
+                left = y / 2
+                right = y / 2
+            } else {
+                left = y / 2 + x / 2
+                right = y / 2 - x / 2
+            }
+        } else if (Math.abs(x) > 100) {
+            left = x / 2
+            right = x / -2
+        } else if (デモNO == 0) {
+            left = 0
+            right = 0
+        }
+        carcotrol.carCtrl(left, right)
+    }
     if (デモNO != 0) {
         デモ()
     } else {
-        if (saveString != "") {
-            x = parseFloat(saveString.split(",")[1])
-            y = parseFloat(saveString.split(",")[2])
-            if (Math.abs(y) > 100) {
-                if (Math.abs(x) < 100) {
-                    left = y / 2
-                    right = y / 2
-                } else {
-                    left = y / 2 + x / 2
-                    right = y / 2 - x / 2
-                }
-            } else if (Math.abs(x) > 100) {
-                left = x / 2
-                right = x / -2
-            } else if (デモNO == 0) {
-                left = 0
-                right = 0
-            }
-            carcotrol.carCtrl(left, right)
-            if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-                carcotrol.plotBarGraph(left, right)
-            } else {
-                carcotrol.plotBarGraph(0 - right, 0 - left)
-            }
+        if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+            carcotrol.plotBarGraph(left, right)
+        } else {
+            carcotrol.plotBarGraph(0 - right, 0 - left)
         }
     }
 })
