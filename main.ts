@@ -47,8 +47,8 @@ let デモNO = 0
 let saveString = ""
 let radioGroup = 0
 let DEMO_SPEED: number[] = []
-carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 carcotrol.setNeoBrightness(50)
+carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 let carType2 = ["U", "T", "M", "U", "P"]
 DEMO_SPEED = [0, 60, 150, 0, 200]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
