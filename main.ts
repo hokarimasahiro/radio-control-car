@@ -9,7 +9,7 @@ function デモ () {
         carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], DEMO_SPEED[carcotrol.getCarType()])
     }
     if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-        carcotrol.plotBarGraph(pins.analogReadPin(AnalogPin.P1) / 4, pins.analogReadPin(AnalogPin.P2) / 4)
+        carcotrol.plotBarGraph(pins.analogReadPin(AnalogReadWritePin.P1) / 4, pins.analogReadPin(AnalogReadWritePin.P2) / 4)
     } else {
         carcotrol.plotBarGraph(carcotrol.getLineColorN(Position.Right) * 255, carcotrol.getLineColorN(Position.Left) * 255)
     }
@@ -36,61 +36,88 @@ radio.onReceivedNumber(function (receivedNumber) {
         carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Black))
     }
 })
+function carControl () {
+    if (Math.abs(y) > 100) {
+        if (Math.abs(x) < 100) {
+            left = y / 2
+            right = y / 2
+        } else {
+            left = y / 2 + x / 2
+            right = y / 2 - x / 2
+        }
+        carcotrol.carCtrl(left, right)
+    } else if (Math.abs(x) > 100) {
+        left = x / 2
+        right = x / -2
+        carcotrol.carCtrl(left, right)
+    } else if (デモNO == 0) {
+        left = 0
+        right = 0
+        carcotrol.carCtrl(left, right)
+    }
+    saveString = ""
+}
+input.onButtonPressed(Button.A, function () {
+    デモNO = 1
+})
 radio.onReceivedString(function (receivedString) {
     saveString = receivedString
 })
+input.onButtonPressed(Button.B, function () {
+    デモNO = 0
+})
+let radioGroup = 0
+let saveString = ""
 let right = 0
 let left = 0
-let y = 0
 let x = 0
+let y = 0
 let デモNO = 0
-let saveString = ""
-let radioGroup = 0
 let DEMO_SPEED: number[] = []
 carcotrol.setNeoBrightness(50)
 carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
-let carType2 = ["U", "T", "M", "U", "P"]
-DEMO_SPEED = [0, 60, 150, 0, 200]
+let carType2 = [
+"U",
+"T",
+"M",
+"U",
+"P"
+]
+DEMO_SPEED = [
+0,
+60,
+150,
+0,
+200
+]
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 getradiogroup.initRadioGroup()
-while (radioGroup == 0) {
-    radioGroup = getradiogroup.getRadioGroup(saveString)
-}
-watchfont.showNumber2(radioGroup)
-basic.pause(1000)
-saveString = ""
-radio.setTransmitPower(7)
 デモNO = 0
 basic.forever(function () {
-    if (saveString != "") {
-        x = parseFloat(saveString.split(",")[1])
-        y = parseFloat(saveString.split(",")[2])
-        if (Math.abs(y) > 100) {
-            if (Math.abs(x) < 100) {
-                left = y / 2
-                right = y / 2
-            } else {
-                left = y / 2 + x / 2
-                right = y / 2 - x / 2
+    if (radioGroup == 0) {
+        if (saveString != "") {
+            radioGroup = getradiogroup.getRadioGroup(saveString)
+            saveString = ""
+            if (radioGroup != 0) {
+                watchfont.showNumber2(radioGroup)
+                basic.pause(1000)
+                radio.setTransmitPower(7)
             }
-            carcotrol.carCtrl(left, right)
-        } else if (Math.abs(x) > 100) {
-            left = x / 2
-            right = x / -2
-            carcotrol.carCtrl(left, right)
-        } else if (デモNO == 0) {
-            left = 0
-            right = 0
-            carcotrol.carCtrl(left, right)
         }
-    }
-    if (デモNO != 0) {
-        デモ()
     } else {
-        if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-            carcotrol.plotBarGraph(left, right)
+        if (saveString != "") {
+            x = parseFloat(saveString.split(",")[1])
+            y = parseFloat(saveString.split(",")[2])
+            carControl()
+        }
+        if (デモNO != 0) {
+            デモ()
         } else {
-            carcotrol.plotBarGraph(0 - right, 0 - left)
+            if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+                carcotrol.plotBarGraph(left, right)
+            } else {
+                carcotrol.plotBarGraph(0 - right, 0 - left)
+            }
         }
     }
 })

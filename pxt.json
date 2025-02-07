@@ -7,7 +7,7 @@
         "microphone": "*",
         "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#91196adc71657f7fbfe9f7196f5f7c21f20b5e6e",
         "pxt-getradiogroup": "github:hokarimasahiro/pxt-getradiogroup#78e41e0b856518157dbcb75b1baf4955bb02abaa",
-        "pxt-watchfont": "github:hokarimasahiro/pxt-watchfont#d5e3bf68305bc0ea0b17a19000a6f7f340f7f792"
+        "pxt-watchfont": "github:hokarimasahiro/pxt-watchfont#7d5f615ff814a5695558fc6d255ee50759d251b5"
     },
     "files": [
         "main.blocks",
@@ -17,6 +17,10 @@
     "testFiles": [
         "test.ts"
     ],
+    "targetVersions": {
+        "target": "7.0.57",
+        "targetId": "microbit"
+    },
     "supportedTargets": [
         "microbit"
     ],
