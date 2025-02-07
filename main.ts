@@ -80,16 +80,22 @@ let carType2 = [
 "U",
 "T",
 "M",
-"U",
+"S",
 "P"
 ]
 DEMO_SPEED = [
 0,
 60,
 150,
-0,
+150,
 200
 ]
+if (input.buttonIsPressed(Button.A)) {
+    carcotrol.setCarType(carType.switchE)
+    while (input.buttonIsPressed(Button.A)) {
+    	
+    }
+}
 basic.showString("" + (carType2[carcotrol.getCarType()]))
 getradiogroup.initRadioGroup()
 デモNO = 0

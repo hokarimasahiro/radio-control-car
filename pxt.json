@@ -5,7 +5,7 @@
         "core": "*",
         "radio": "*",
         "microphone": "*",
-        "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#91196adc71657f7fbfe9f7196f5f7c21f20b5e6e",
+        "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#7bcc0f366b68dd09f1621dc6476eea417a194bcf",
         "pxt-getradiogroup": "github:hokarimasahiro/pxt-getradiogroup#78e41e0b856518157dbcb75b1baf4955bb02abaa",
         "pxt-watchfont": "github:hokarimasahiro/pxt-watchfont#7d5f615ff814a5695558fc6d255ee50759d251b5"
     },
