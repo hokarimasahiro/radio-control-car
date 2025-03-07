@@ -59,12 +59,14 @@ function carControl () {
 }
 input.onButtonPressed(Button.A, function () {
     デモNO = 1
+    basic.showString("A")
 })
 radio.onReceivedString(function (receivedString) {
     saveString = receivedString
 })
 input.onButtonPressed(Button.B, function () {
     デモNO = 0
+    basic.showString("B")
 })
 let radioGroup = 0
 let saveString = ""
@@ -88,9 +90,9 @@ DEMO_SPEED = [
 0,
 60,
 150,
-150,
 100,
-100
+70,
+70
 ]
 if (input.buttonIsPressed(Button.A)) {
     carcotrol.setCarType(carType.switchE)
@@ -124,14 +126,14 @@ basic.forever(function () {
             y = parseFloat(saveString.split(",")[2])
             carControl()
         }
-        if (デモNO != 0) {
-            デモ()
+    }
+    if (デモNO != 0) {
+        デモ()
+    } else {
+        if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+            carcotrol.plotBarGraph(left, right)
         } else {
-            if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-                carcotrol.plotBarGraph(left, right)
-            } else {
-                carcotrol.plotBarGraph(0 - right, 0 - left)
-            }
+            carcotrol.plotBarGraph(0 - right, 0 - left)
         }
     }
 })
