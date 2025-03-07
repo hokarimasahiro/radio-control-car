@@ -91,8 +91,8 @@ DEMO_SPEED = [
 60,
 150,
 100,
-70,
-70
+100,
+100
 ]
 if (input.buttonIsPressed(Button.A)) {
     carcotrol.setCarType(carType.switchE)
