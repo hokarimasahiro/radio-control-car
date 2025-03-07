@@ -8,6 +8,7 @@ function デモ () {
     } else if (carcotrol.getLineColor(Position.Left, lineColor.Black) && carcotrol.getLineColor(Position.Right, lineColor.Black)) {
         carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], DEMO_SPEED[carcotrol.getCarType()])
     }
+    basic.clearScreen()
     if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
         carcotrol.plotBarGraph(pins.analogReadPin(AnalogReadWritePin.P1) / 4, pins.analogReadPin(AnalogReadWritePin.P2) / 4)
     } else {
@@ -130,6 +131,7 @@ basic.forever(function () {
     if (デモNO != 0) {
         デモ()
     } else {
+        basic.clearScreen()
         if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
             carcotrol.plotBarGraph(left, right)
         } else {
