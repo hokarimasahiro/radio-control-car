@@ -81,18 +81,26 @@ let carType2 = [
 "T",
 "M",
 "S",
-"P"
+"P",
+"O"
 ]
 DEMO_SPEED = [
 0,
 60,
 150,
 150,
-200
+100,
+100
 ]
 if (input.buttonIsPressed(Button.A)) {
     carcotrol.setCarType(carType.switchE)
     while (input.buttonIsPressed(Button.A)) {
+    	
+    }
+}
+if (input.buttonIsPressed(Button.B)) {
+    carcotrol.setCarType(carType.PorocarO)
+    while (input.buttonIsPressed(Button.B)) {
     	
     }
 }
