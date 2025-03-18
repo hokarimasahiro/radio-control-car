@@ -95,7 +95,7 @@ DEMO_SPEED = [
 60,
 150,
 100,
-90,
+100,
 100
 ]
 if (input.buttonIsPressed(Button.A)) {
