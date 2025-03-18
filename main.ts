@@ -61,15 +61,39 @@ function carControl () {
 input.onButtonPressed(Button.A, function () {
     デモNO = 1
     basic.showString("A")
+    carcotrol.carCtrl(0, 0)
+    basic.pause(1000)
+})
+function デモ2 () {
+    if (pins.digitalReadPin(DigitalPin.P1) == 1 && pins.digitalReadPin(DigitalPin.P2) == 1) {
+    	
+    } else if (pins.digitalReadPin(DigitalPin.P1) == 1 && pins.digitalReadPin(DigitalPin.P2) == 0) {
+        carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], 0)
+    } else if (pins.digitalReadPin(DigitalPin.P1) == 0 && pins.digitalReadPin(DigitalPin.P2) == 1) {
+        carcotrol.carCtrl(0, DEMO_SPEED[carcotrol.getCarType()])
+    } else if (pins.digitalReadPin(DigitalPin.P1) == 0 && pins.digitalReadPin(DigitalPin.P2) == 0) {
+        carcotrol.carCtrl(DEMO_SPEED[carcotrol.getCarType()], DEMO_SPEED[carcotrol.getCarType()])
+    }
+    basic.clearScreen()
+    if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+        carcotrol.plotBarGraph(pins.digitalReadPin(DigitalPin.P1) * 255, pins.digitalReadPin(DigitalPin.P2) * 255)
+    } else {
+    	
+    }
+}
+input.onGesture(Gesture.Shake, function () {
+    デモNO = 0
+    carcotrol.carCtrl(0, 0)
 })
 radio.onReceivedString(function (receivedString) {
     saveString = receivedString
     serial.writeLine(saveString)
 })
 input.onButtonPressed(Button.B, function () {
-    デモNO = 0
-    carcotrol.carCtrl(0, 0)
+    デモNO = 2
     basic.showString("B")
+    carcotrol.carCtrl(0, 0)
+    basic.pause(1000)
 })
 let radioGroup = 0
 let saveString = ""
@@ -95,7 +119,7 @@ DEMO_SPEED = [
 60,
 150,
 100,
-100,
+128,
 100
 ]
 if (input.buttonIsPressed(Button.A)) {
@@ -131,8 +155,10 @@ basic.forever(function () {
             carControl()
         }
     }
-    if (デモNO != 0) {
+    if (デモNO == 1) {
         デモ()
+    } else if (デモNO == 2) {
+        デモ2()
     } else {
         basic.clearScreen()
         if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
