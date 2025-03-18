@@ -64,9 +64,11 @@ input.onButtonPressed(Button.A, function () {
 })
 radio.onReceivedString(function (receivedString) {
     saveString = receivedString
+    serial.writeLine(saveString)
 })
 input.onButtonPressed(Button.B, function () {
     デモNO = 0
+    carcotrol.carCtrl(0, 0)
     basic.showString("B")
 })
 let radioGroup = 0
@@ -77,6 +79,7 @@ let x = 0
 let y = 0
 let デモNO = 0
 let DEMO_SPEED: number[] = []
+serial.redirectToUSB()
 carcotrol.setNeoBrightness(50)
 carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 let carType2 = [
@@ -96,12 +99,14 @@ DEMO_SPEED = [
 100
 ]
 if (input.buttonIsPressed(Button.A)) {
+    basic.showString("A")
     carcotrol.setCarType(carType.switchE)
     while (input.buttonIsPressed(Button.A)) {
     	
     }
 }
 if (input.buttonIsPressed(Button.B)) {
+    basic.showString("B")
     carcotrol.setCarType(carType.PorocarO)
     while (input.buttonIsPressed(Button.B)) {
     	
@@ -112,14 +117,12 @@ getradiogroup.initRadioGroup()
 デモNO = 0
 basic.forever(function () {
     if (radioGroup == 0) {
-        if (saveString != "") {
-            radioGroup = getradiogroup.getRadioGroup(saveString)
-            saveString = ""
-            if (radioGroup != 0) {
-                watchfont.showNumber2(radioGroup)
-                basic.pause(1000)
-                radio.setTransmitPower(7)
-            }
+        radioGroup = getradiogroup.getRadioGroup(saveString)
+        saveString = ""
+        if (radioGroup != 0) {
+            watchfont.showNumber2(radioGroup)
+            basic.pause(1000)
+            radio.setTransmitPower(7)
         }
     } else {
         if (saveString != "") {
